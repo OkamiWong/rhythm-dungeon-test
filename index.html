@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Rhythm Dungeon | Unity WebGL Player</title>
+  <title>Unity WebGL Player | Rhythm Dungeon</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
   <script src="TemplateData/UnityProgress.js"></script>
@@ -12,6 +12,12 @@
   <script>
     var gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
     window.addEventListener('load', function () {
+      let main = document.getElementsByTagName("main")[0];
+      let container = document.getElementById("gameContainer");
+      main.style.height = window.screen.height*0.7 + 'px';
+      main.style.width = window.screen.width*0.7 + 'px';
+      container.style.height = window.screen.height*0.7 + 'px';
+      container.style.width = window.screen.width*0.7 + 'px';
       // Checking if Web3 has been injected by the browser (Mist/MetaMask)
       if (window.ethereum) {
         window.web3 = new Web3(ethereum);
@@ -50,9 +56,9 @@
 </head>
 
 <body>
-  <main class="main">
+  <main>
   <div class="webgl-content">
-    <div id="gameContainer" style="width: 70vw; height: 70vh"></div>
+    <div id="gameContainer"></div>
     <div class="footer">
       <div class="webgl-logo"></div>
       <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
