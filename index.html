@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Rhythm Dungeon | Unity WebGL Player</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <script src="TemplateData/UnityProgress.js"></script>
+  <script src="Build/UnityLoader.js"></script>
+  <script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
+    window.addEventListener('load', function () {
+      // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+      if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        web3.version.getNetwork(async (err, netId) => {
+          if (netId != 42) {
+            document.getElementById("metamaskWarning").innerText = 'Please connect to Kovan to submit your character and revive.';
+            web3 = undefined;
+          } else {
+            document.getElementById("metamaskWarning").innerText = '';
+            try {
+              await ethereum.enable();
+            } catch (error) {
+              web3 = undefined;
+              document.getElementById("metamaskWarning").innerText = 'You denied the access.';
+            }
+          }
+        });
+      } else {
+        document.getElementById("metamaskWarning").innerText = 'Please install Metamask and connect to Kovan to upload your character and revive.';
+      }
+    });
+
+    if (typeof web3 != "undefined") {
+      var abi = [{ "constant": false, "inputs": [], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "ownerWithdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "isPriceAssigned", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "internalType": "address", "name": "tokenOwner", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [{ "internalType": "address payable", "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "newPrice", "type": "uint256" }], "name": "setPrice", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "price", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "index", "type": "uint256" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "reward", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "string", "name": "_name", "type": "string" }, { "internalType": "uint256", "name": "_hp", "type": "uint256" }, { "internalType": "uint256", "name": "_mp", "type": "uint256" }, { "internalType": "uint256", "name": "_str", "type": "uint256" }, { "internalType": "uint256", "name": "_intelli", "type": "uint256" }, { "internalType": "uint256", "name": "_san", "type": "uint256" }, { "internalType": "uint256", "name": "_luck", "type": "uint256" }, { "internalType": "uint256", "name": "_charm", "type": "uint256" }, { "internalType": "uint256", "name": "_mt", "type": "uint256" }, { "internalType": "string", "name": "_optionalAttrs", "type": "string" }], "name": "insertCharacter", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "isGenesisSet", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "useRevivalCoins", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "internalType": "address", "name": "tokenOwner", "type": "address" }], "name": "coinBalanceOf", "outputs": [{ "internalType": "uint256", "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "buy", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "address", "name": "genesisAddress", "type": "address" }], "name": "setGenesis", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "uint256", "name": "newPrice", "type": "uint256" }], "name": "SetPrice", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "Buy", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "CoinBalanceInsufficient", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "SuccessfullyUse", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "receiver", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "Reward", "type": "event" }];
+      var revivalCoinContract = web3.eth.contract(abi);
+      var revivalCoin = revivalCoinContract.at('0x1FB12429900de812942a8baea2f26E34b69fAAB0');
+      var successfullyUseEvent = revivalCoin.SuccessfullyUse();
+      successfullyUseEvent.watch(function (error, result) {
+        if (!error) {
+          if (result.args.user == ethereum.selectedAddress)
+            gameInstance.SendMessage("JSInterface", "SuccessfullyRevival", result.args.amount.toString());
+        } else { console.log(error); }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <main class="main">
+  <div class="webgl-content">
+    <div id="gameContainer" style="width: 70vw; height: 70vh"></div>
+    <div class="footer">
+      <div class="webgl-logo"></div>
+      <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+      <div class="title">Rhythm Dungeon</div>
+    </div>
+    <div class="footer">
+      <h2 id="metamaskWarning" style="color:red">Please install Metamask and connect to Kovan to upload your character
+        and revive.
+      </h2>
+    </div>
+    <div class="footer">
+      <div class="title" style="color:green"> You can still enjoy the game without any connection to blockchain!
+      </div>
+    </div>
+    <div class="footer">
+      <div class="title" style="color:darkorange"> Upload your character to blockchain and beat other players! This
+        gives you revival
+        coins
+        as rewards~</div>
+    </div>
+    <div class="footer">
+      <div class="title"><a href="https://kovan.etherscan.io/address/0x082e81fb00fab5b83aa6db202a97a9fb94096abe">Genesis
+          Contract</a></div>
+    </div>
+    <div class="footer">
+      <div class="title"><a
+          href="https://kovan.etherscan.io/address/0x1fb12429900de812942a8baea2f26e34b69faab0">RevivalCoin Contract</a>
+      </div>
+    </div>
+
+
+    <div class="footer">Designer: Wang Tengfei, Fu Taimeng, Wu Wei.</div>
+    <div class="footer">Programmer: Wang Tengfei, Fu Taimeng, Wu Wei.</div>
+    <div class="footer">Musician: Edward Cai.</div>
+    <div class="footer">Icon Pack: <a href="http://ails.deviantart.com">Henrique Lazarini</a></div>
+    <div class="footer">Advisor: Cai Wei, Wu Xiao, Zhang Shuyi.</div>
+    <div class="footer">
+      <div class="title">
+        <img src="logo1.png" width="110" height="100" /><img src="logo2.png" width="110" height="100" /><img
+          src="logo3.png" width="156" height="100" />
+      </div>
+    </div>
+  </div>
+  </main>
+  </div>
+</body>
+
+</html>
