@@ -14,10 +14,21 @@
     window.addEventListener('load', function () {
       let main = document.getElementsByTagName("main")[0];
       let container = document.getElementById("gameContainer");
-      main.style.height = window.screen.height*0.7 + 'px';
-      main.style.width = window.screen.width*0.7 + 'px';
-      container.style.height = window.screen.height*0.7 + 'px';
-      container.style.width = window.screen.width*0.7 + 'px';
+      const scaleFlag = (window.screen.width/window.screen.height) - (16/9);
+      if(scaleFlag >= 0){
+        let Height = window.screen.height*0.7;
+        main.style.width = (Height/9)*16 + 'px';
+        main.style.height = Height + 'px';
+        container.style.width = (Height/9)*16 + 'px';
+        container.style.height = Height + 'px';
+      }else{
+        let Width = window.screen.width*0.7;
+        main.style.width = (Width) + 'px';
+        main.style.height = (Width/16)*9 + 'px';
+        container.style.width = Width + 'px';
+        container.style.height = (Width/16)*9 + 'px';
+      }
+
       // Checking if Web3 has been injected by the browser (Mist/MetaMask)
       if (window.ethereum) {
         window.web3 = new Web3(ethereum);
