@@ -124,6 +124,7 @@ footer img{
     position: relative;
     top: 0vh;
     font-size: 3rem;
+    text-shadow: 4px 5px 5px black;
     color:white;
     font-family: 'mainfont';
 }

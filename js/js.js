@@ -1,15 +1,14 @@
 let gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
 window.addEventListener('load', function () {
-  this.console.log("")
-  mobileTest();
+  mobileCheck();
   changeMainSize();
   addListener();
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (window.ethereum) {
     window.web3 = new Web3(ethereum);
     web3.version.getNetwork(async (err, netId) => {
-      if (netId != 42) {
-        document.getElementById("metamaskWarning").innerText = 'Please connect to Kovan to submit your character and revive.';
+      if (netId != 1) {
+        document.getElementById("metamaskWarning").innerText = 'Please connect to mainnet to submit your character and revive.';
         web3 = undefined;
       } else {
         document.getElementById("metamaskWarning").innerText = '';
@@ -17,23 +16,23 @@ window.addEventListener('load', function () {
           await ethereum.enable();
         } catch (error) {
           web3 = undefined;
-          document.getElementById("metamaskWarning").innerText = 'You denied the access.';
+          document.getElementById("metamaskWarning").innerText = 'You denied the access to your wallet.';
         }
       }
     });
   } else {
-    document.getElementById("metamaskWarning").innerText = 'Please install Metamask and connect to Kovan to upload your character and revive.';
+    document.getElementById("metamaskWarning").innerText = 'Please install Metamask and connect to mainnet to upload your character and revive.';
   }
 });
 
-function mobileTest() {
+function mobileCheck() {
   var userAgent = navigator.userAgent;
   if(userAgent.indexOf('Android') != -1 || userAgent.indexOf('Mobile') != -1){
-    document.getElementsByClassName("webgl-content")[0].style.display = 'none'
-    document.getElementsByClassName("modal")[0].style.display = "block";
-  }else{
-    document.getElementsByClassName("webgl-content")[0].style.display = 'block'
-    document.getElementsByClassName("modal")[0].style.display = "none";
+    document.getElementsByTagName("html")[0].style.zoom = 0.4;
+    document.getElementsByClassName("designer")[0].style.width = "200vw";
+    document.getElementById("fullscreenBoyContainer").firstChild.style.width = "4vh";
+    document.getElementById("fullscreenBoyContainer").firstChild.style.height = "4vh";
+    document.getElementsByClassName("bottom")[0].style.marginTop = "15vh";
   }
 }
 
@@ -54,8 +53,6 @@ function addListener() {
   let icon = document.getElementsByClassName("designerIcon")[0];
   let designerList = document.getElementsByClassName("designerList")[0];
   let fullscreen = document.getElementsByClassName("fullscreenContainer")[0];
-  console.log(icon);
-  document.getElementById("close").addEventListener('click',close);
   icon.addEventListener('mouseover',function () {
     icon.style.display = 'none';
     document.getElementsByClassName("designer")[0].style.display = "block";
@@ -66,11 +63,6 @@ function addListener() {
   })
 }
 
-
-function close(){
-  window.open('about:blank','_self','').close();
-  return;
-}
 function changeMainSize() {
   let scale = 0.6;
   let main = document.getElementsByTagName("main")[0];

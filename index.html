@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Rhythm Dungeon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <script src="TemplateData/UnityProgress.js"></script>
   <script src="Build/UnityLoader.js"></script>
@@ -15,7 +15,7 @@
 
 <body>
   <!--game-->
-  <div class="webgl-content" style="display: none;">
+  <div class="webgl-content">
     <div class="mainContainer">
       <main>
         <div id="gameContainer">
@@ -29,7 +29,7 @@
       </main>
       <footer>
           <div id="tips">
-            <p  id="metamaskWarning">Please install Metamask and connect to Kovan to upload your character and revive.</p>
+            <p  id="metamaskWarning">Please install Metamask and connect to mainnet to upload your character and revive.</p>
             <!-- <div class="underLine"></div> -->
           <!---->
             <p id="tip2">You can still enjoy the game without any connection to blockchain!</p>
@@ -69,19 +69,6 @@
     </div>
   </div>
 
-  <div class="modal" style="display: none;">
-    <div class="phone">
-      <div class="head flex">
-        <p>Sorry</p>
-      </div>
-      <div class="body">
-        <p>We do not support your device right now. </p>
-      </div>
-      <div class="foot flex">
-        <button id="close" onclick="window.close();">Close</button>
-      </div>
-    </div>
-  </div>
   <script src="js/js.js"></script>
 </body>
 </html>
