@@ -1,74 +1,25 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Rhythm Dungeon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <script src="TemplateData/UnityProgress.js"></script>
-  <script src="Build/UnityLoader.js"></script>
-  <link rel="stylesheet" href="TemplateData/style.css">
-  <link rel="stylesheet" href="TemplateData/common.css">
-</head>
-
-<body>
-  <!--game-->
-  <div class="webgl-content">
-    <div class="mainContainer">
-      <main>
-        <div id="gameContainer">
-        </div>
-        <div class="buttomGroup">
-          <div  class="buttomBackgroundImage flex" onclick="gameInstance.SetFullscreen(1)" draggable="false">
-            <div id="buttomTextContainer"><span class="buttomText">Fullscreen</span></div>
-            <div id="fullscreenBoyContainer"><img draggable="false" src="./TemplateData/fullscreen.png" alt=""></div>
-          </div>
-        </div>
-      </main>
-      <footer>
-          <div id="tips">
-            <p  id="metamaskWarning">Please install Metamask and connect to mainnet to upload your character and revive.</p>
-            <!-- <div class="underLine"></div> -->
-          <!---->
-            <p id="tip2">You can still enjoy the game without any connection to blockchain!</p>
-            <!-- <div class="underLine"></div> -->
-            <!---->
-            <p id="tip3">Upload your character to blockchain and beat other players! This gives you revival coins as rewards~</p>
-            <!-- <div class="underLine"></div> -->
-            <p id="Contract" onclick="javascript:window.open('https://etherscan.io/address/0x8cae244D8E274058d1C10C8ED731994A10b7e7d2')">Genesis Contract</p>
-            <!---->
-            <p id="buyCoins" onclick="javascript:window.open('https://etherscan.io/address/0x1b5269e48e16459f799ff955019acb7b68ac24d9')"><span style="">Buy revival coins at </span><i><u>RevivalCoin Contract</u></i> !!</p>
-
-          </div>
-      </footer>
-      <div class="bottom">
-        <div class="logoContainer">
-          <img src="./TemplateData/logoes.png" class="logo" alt="">
-          <p id="logotextTop"><a href="https://whitematrix.io/">White Matrix</a></p>
-          <p id="logotextBottom"><a href="http://gaim.sse.cuhk.edu.cn/">GAIM Lab, CUHK-Shenzhen</a></p>
-        </div>
-        <div class="designerList">
-          <div class="designerIcon">
-            <img src="./TemplateData/designerIcon.png" draggable="false" alt="" srcset="">
-            <p>Credits</p>
-          </div>
-          <div class="designer">
-            <div class="footer"><span>Designer:</span> Wang Tengfei, Fu Taimeng, Wu Wei.</div>
-            <div class="footer"><span>Programmer:</span> Wang Tengfei, Fu Taimeng, Wu Wei.</div>
-            <div class="footer"><span>Musician:</span> Edward Cai.</div>
-            <div class="footer">Web Developer: Shao Dezhi.</div>
-            <div class="footer"><span>Icon Pack:</span> <a href="http://ails.deviantart.com">Henrique Lazarini</a>.</div>
-            <div class="footer"><span>Advisor:</span> Cai Wei, Wu Xiao, Zhang Shuyi.</div>
-            <div class="footer">Special thanks to all the friends who helped us test the game~
-            </div>
-          </div>
-        </div>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Rhythm Dungeon</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", {onProgress: UnityProgress});
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="gameContainer" style="width: 960px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">Rhythm Dungeon</div>
       </div>
     </div>
-  </div>
-
-  <script src="js/js.js"></script>
-</body>
+  </body>
 </html>
