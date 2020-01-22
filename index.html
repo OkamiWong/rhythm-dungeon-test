@@ -22,7 +22,7 @@
     }
 
     var gameInstance = UnityLoader.instantiate("unityContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
-    if (tp.isConnected()) {
+    if (tp != null && tp.isConnected()) {
       tp.rollHorizontal({
         horizontal: true
       });
