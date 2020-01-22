@@ -12,12 +12,21 @@
   <link rel="stylesheet" href="assets/css/style.css">
 
   <script src="assets/js/jquery-3.4.1.min.js"></script>
-
-  <!-- unity resources -->
   <script src="Build/UnityLoader.js"></script>
-
+  <script src="./dist/tp.js"></script>
   <script>
+    function UnityProgress(gameInstance, progress) {
+      if (progress == 1) {
+        gameInstance.SendMessage("JSInterface", "IsMobile");
+      }
+    }
+
     var gameInstance = UnityLoader.instantiate("unityContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
+    if (tp.isConnected()) {
+      tp.rollHorizontal({
+        horizontal: true
+      });
+    }
   </script>
 </head>
 
