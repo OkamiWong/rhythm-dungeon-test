@@ -34,9 +34,3 @@ $(document).keydown(function (event) {
     }
   }
 });
-
-function UnityProgress(gameInstance, progress) {
-  if (progress == 1) {
-    gameInstance.SendMessage("JSInterface", "IsMobile");
-  }
-}
