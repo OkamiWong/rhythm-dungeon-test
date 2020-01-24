@@ -41,18 +41,18 @@ let tpFlag = 0;
 window.addEventListener('load', function () {
 //  displaySwitcher([modal]);
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-  if (window.ethereum) {
-    window.web3 = new Web3(ethereum);
-    web3.version.getNetwork(async (err, netId) => {
+  if (typeof web3 !== 'undefined') {
+    web3js = new Web3(web3.currentProvider);
+    web3js.version.getNetwork(async (err, netId) => {
       if (netId != 1) {
         document.getElementById("metamaskWarning").innerText = 'Please connect to mainnet to submit your character and revive.';
-        web3 = undefined;
+        web3js = undefined;
       } else {
         document.getElementById("metamaskWarning").innerText = '';
         try {
           await ethereum.enable();
         } catch (error) {
-          web3 = undefined;
+          web3js = undefined;
           document.getElementById("metamaskWarning").innerText = 'You denied the access to your wallet.';
         }
       }
@@ -72,9 +72,9 @@ window.addEventListener('load', function () {
 
 
 
-if (typeof web3 != "undefined") {
+if (typeof web3js != "undefined") {
   let abi = [{ "constant": false, "inputs": [], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "ownerWithdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "isPriceAssigned", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "internalType": "address", "name": "tokenOwner", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [{ "internalType": "address payable", "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "newPrice", "type": "uint256" }], "name": "setPrice", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "price", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "index", "type": "uint256" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "reward", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "string", "name": "_name", "type": "string" }, { "internalType": "uint256", "name": "_hp", "type": "uint256" }, { "internalType": "uint256", "name": "_mp", "type": "uint256" }, { "internalType": "uint256", "name": "_str", "type": "uint256" }, { "internalType": "uint256", "name": "_intelli", "type": "uint256" }, { "internalType": "uint256", "name": "_san", "type": "uint256" }, { "internalType": "uint256", "name": "_luck", "type": "uint256" }, { "internalType": "uint256", "name": "_charm", "type": "uint256" }, { "internalType": "uint256", "name": "_mt", "type": "uint256" }, { "internalType": "string", "name": "_optionalAttrs", "type": "string" }], "name": "insertCharacter", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "isGenesisSet", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "useRevivalCoins", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "internalType": "address", "name": "tokenOwner", "type": "address" }], "name": "coinBalanceOf", "outputs": [{ "internalType": "uint256", "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "buy", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [{ "internalType": "address", "name": "genesisAddress", "type": "address" }], "name": "setGenesis", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "uint256", "name": "newPrice", "type": "uint256" }], "name": "SetPrice", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "Buy", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "CoinBalanceInsufficient", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "aim", "type": "uint256" }], "name": "SuccessfullyUse", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "receiver", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "Reward", "type": "event" }];
-  let revivalCoinContract = web3.eth.contract(abi);
+  let revivalCoinContract = web3js.eth.contract(abi);
   let revivalCoin = revivalCoinContract.at('0x1FB12429900de812942a8baea2f26E34b69fAAB0');
   let successfullyUseEvent = revivalCoin.SuccessfullyUse();
   successfullyUseEvent.watch(function (error, result) {
