@@ -358,6 +358,8 @@ footer img{
     height: 180px;
     text-align: center;
     position:absolute;
+    text-shadow: 4px 5px 5px black;
+
     top:0;
     font-size: 30px;
     font-family: mainfont;
@@ -383,4 +385,9 @@ footer img{
 }
 #mobileFullscreen:active{
     background-image: url(./buttonLong_grey_pressed.png);
+    content: "If there is no response after Fullscreen button is clicked, please try TokenPocket or other web browsers.";
+}
+.modal-body p{
+    font-size: 14px;
+    text-shadow: 4px 5px 5px black;
 }

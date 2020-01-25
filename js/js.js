@@ -1,7 +1,7 @@
 let gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
 let initSize = {width: undefined, height:undefined};
 let resizeHandler = null;
-let mobileMode = 0;
+let mobileMode = 0,tpFlag = 0,QQbrowser = 0;;
 let canvas = document.getElementsByTagName("canvas")[0];
 let container = document.getElementById("gameContainer");
 let webgl = document.getElementsByClassName("gameouter")[0];
@@ -13,9 +13,8 @@ let bottom = document.getElementsByClassName("bottom")[0];
 let button = document.getElementsByClassName("buttomGroup")[0];
 let modal = document.getElementsByClassName("modal")[0];
 let fullScreen = document.getElementById("mobileFullscreen");
-let locOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || screen.orientation.lock;
-let tpFlag = 0;
-
+let locOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || screen.orientation.lock;         
+let iphone = 0;
 
 (()=>{
   var userAgent = navigator.userAgent;
@@ -36,10 +35,19 @@ let tpFlag = 0;
     });
     tpFlag = 1;
   }
+  if(userAgent.indexOf('QQ/') == -1 && userAgent.indexOf('MQQBrowser') != -1){
+    QQbrowser = 1;
+  }
+  if(userAgent.indexOf("UCBrowser") != -1){
+    QQbrowser = 1;
+  }
+  if(userAgent.indexOf("iPhone") != -1){
+    iphone = 1;
+  }
 })()
 
 window.addEventListener('load', function () {
-//  displaySwitcher([modal]);
+  //钱包接口
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
     web3js = new Web3(web3.currentProvider);
@@ -61,9 +69,12 @@ window.addEventListener('load', function () {
     document.getElementById("metamaskWarning").innerText = 'Please install Metamask and connect to mainnet to upload your character and revive.';
   }
     // addListener();
+  
+  
+    //修改尺寸  
   if(!mobileMode) 
     changeMainSize();
-  else if(tpFlag == 1)
+  else if(tpFlag == 1 || QQbrowser == 1)
     mobilePreChange();
   else
     normalMoblie();
@@ -82,8 +93,10 @@ if (typeof web3js != "undefined") {
       if (result.args.user == ethereum.selectedAddress)
         gameInstance.SendMessage("JSInterface", "SuccessfullyRevival", result.args.amount.toString());
       } else { console.log(error); }      
-    });
+    });    
 }
+//钱包接口结束
+
 
 function normalMoblie(){
   fullscreenChange();
@@ -92,24 +105,25 @@ function normalMoblie(){
   displaySwitcher([webgl]);
   fullScreen.addEventListener("click",()=>{
     lockPortrait();
+//    gameInstance.SetFullscreen(1);
   })
 }
 
 async function lockPortrait() {
   await document.body.requestFullscreen();
-  await screen.orientation
-          .lock('landscape')
+  if(!iphone)
+    await screen.orientation
+        .lock('landscape')
         .catch(e => alert(e.message));
-  await fullSize();
+  setTimeout(fullSize,1000);
   displaySwitcher([webgl]);
   displaySwitcher([modal],"none");
-
 }
 
 function mobilePreChange() {
     mobileBackground()
     body.style.backgroundImage = "url()";
-    fullSize();
+    setTimeout(fullSize,1000);
 }
 
 function fullscreenChange() {
