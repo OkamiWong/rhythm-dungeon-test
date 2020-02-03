@@ -1,6 +1,6 @@
 let gameInstance = UnityLoader.instantiate("gameContainer", "Build/rhythm-dungeon-build-webgl.json", { onProgress: UnityProgress });
 let initSize = {width: undefined, height:undefined};
-let resizeHandler = null;
+let resizeHandler = null,resizeHandlerMobile = null;
 let mobileMode = 0,tpFlag = 0,QQbrowser = 0;;
 let canvas = document.getElementsByTagName("canvas")[0];
 let container = document.getElementById("gameContainer");
@@ -13,15 +13,41 @@ let bottom = document.getElementsByClassName("bottom")[0];
 let button = document.getElementsByClassName("buttomGroup")[0];
 let modal = document.getElementsByClassName("modal")[0];
 let fullScreen = document.getElementById("mobileFullscreen");
-let locOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || screen.orientation.lock;         
 let iphone = 0;
+
+
+async function lockOrientation() {
+  if(screen.lockOrientation)
+  await  screen.lockOrientation("landscape");
+  else if(screen.mozLockOrientation)
+  await  screen.mozLockOrientation("landscape");
+  else if(screen.msLockOrientation)
+  await  screen.msLockOrientation("landscape");
+  else if(screen.orientation.lock)
+  await  screen.orientation.lock("landscape");
+}
+
+async function Fullscreen(ele) {
+  if (ele.requestFullscreen) {
+      await ele.requestFullscreen();
+  } else if (ele.mozRequestFullScreen) {
+      await ele.mozRequestFullScreen();
+  } else if (ele.msRequestFullscreen) {
+      await ele.msRequestFullscreen();
+  } else if (ele.webkitRequestFullscreen) {
+      await ele.webkitRequestFullScreen();
+  }
+}
+
+
 
 (()=>{
   var userAgent = navigator.userAgent;
-  if(userAgent.indexOf('Android') != -1 || userAgent.indexOf('Mobile') != -1){
+
+  if(userAgent.indexOf('Android') != -1 || userAgent.indexOf('Mobile') != -1 || userAgent.indexOf('iPhone') != -1){
     mobileMode = 1;
   }
-  if(userAgent.indexOf('TokenPocket_Android') != -1||userAgent.indexOf('TokenPocket_IOS') != -1){
+  if(userAgent.indexOf('TokenPocket_Android') != -1||userAgent.indexOf('TokenPocket_iOS') != -1){
     tp.setMenubar({
       flag: 1
     });
@@ -68,9 +94,6 @@ window.addEventListener('load', function () {
   } else {
     document.getElementById("metamaskWarning").innerText = 'Please install Metamask and connect to mainnet to upload your character and revive.';
   }
-    // addListener();
-  
-  
     //修改尺寸  
   if(!mobileMode) 
     changeMainSize();
@@ -79,6 +102,7 @@ window.addEventListener('load', function () {
   else
     normalMoblie();
   body.style.display = "block";
+
 });
 
 
@@ -98,26 +122,48 @@ if (typeof web3js != "undefined") {
 //钱包接口结束
 
 
+function safariAddressBar(){
+  if(resizeHandlerMobile) clearTimeout(resizeHandlerMobile);
+  else{
+    resizeHandlerMobile = setTimeout(fullSize,300)
+  } 
+}
+
 function normalMoblie(){
   fullscreenChange();
   displaySwitcher([modal],"flex")
   mobileBackground();
   displaySwitcher([webgl]);
+  if(iphone && !tpFlag){
+    Full();
+    window.onresize = safariAddressBar;
+    window.addEventListener("orientationchange",()=>{setTimeout(safariDirection,100);});
+    safariDirection();
+  }
   fullScreen.addEventListener("click",()=>{
-    lockPortrait();
-//    gameInstance.SetFullscreen(1);
-  })
+    Full();
+  })  
 }
 
-async function lockPortrait() {
-  await document.body.requestFullscreen();
-  if(!iphone)
-    await screen.orientation
-        .lock('landscape')
-        .catch(e => alert(e.message));
-  setTimeout(fullSize,1000);
+function safariDirection(){
+  if(window.innerHeight>window.innerWidth){    
+    modal.style.display = "flex"
+    webgl.style.display = "none"
+    displaySwitcher([modal.children[2]],"none");
+    modal.children[0].innerText = "Please rotate your screen.";
+  }else {
+    modal.style.display = "none"
+    webgl.style.display = "flex"
+    setTimeout(fullSize,1000);
+  }
+}
+
+async function Full() {
+  await Fullscreen(container)
+  await lockOrientation()
   displaySwitcher([webgl]);
   displaySwitcher([modal],"none");
+  setTimeout(fullSize,1000);
 }
 
 function mobilePreChange() {
@@ -231,7 +277,7 @@ function displaySwitcher(doms,display = undefined) {
       dom.style.display = (dom.style.display == ""|| dom.style.display == "block"|| dom.style.display == undefined) ? "none" : "block";
       console.log(dom.style.display)
     }
-    else
-      for(dom of doms)
-        dom.style.display = dom.style.display == display ||  dom.style.display == '' ? "none" : display;
+  else
+    for(dom of doms)
+      dom.style.display = (dom.style.display == display ||  dom.style.display == '') ? "none" : display;
 }

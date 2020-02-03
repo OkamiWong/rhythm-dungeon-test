@@ -22,8 +22,10 @@ function UnityProgress(gameInstance, progress) {
   if (progress == 1){
     gameInstance.logo.style.display = gameInstance.progress.style.display = "none";
     var userAgent = navigator.userAgent;
-    if(userAgent.indexOf('Android') != -1 || userAgent.indexOf('Mobile') != -1){
+    if(userAgent.indexOf('Android') != -1 || userAgent.indexOf('Mobile') != -1 || userAgent.indexOf('iPhone') != -1){                                    
       gameInstance.SendMessage("JSInterface", "IsMobile");
-    }
+      if(userAgent.indexOf('iPhone') != -1)
+        gameInstance.SendMessage("JSInterface", "IsIOS");
+    } 
   }
 }
