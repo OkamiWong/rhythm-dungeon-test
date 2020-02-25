@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://193.112.190.29:4200");
+var ws = new WebSocket("wss://welovegame.club:4200");
 
 ws.onopen = function () {
     ws.send("rd");
